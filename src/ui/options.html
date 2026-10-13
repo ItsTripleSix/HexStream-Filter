@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Your rules · HexStream Filter</title><link rel="stylesheet" href="theme.css"></head>
+<body><main class="options">
+  <header class="between"><div class="row brand"><img src="../icons/96.png" alt=""><div><div class="eyebrow">HexStream by TripleSix</div><h1>Less noise. More game.</h1><p>Your Twitch directory. Your rules.</p></div></div><label class="filter-toggle"><input type="checkbox" id="enabled"> Filtering enabled</label></header>
+  <section class="toolbar" aria-label="Manage rules">
+    <div class="row"><button id="choose-import">Import JSON</button><input id="import" type="file" accept=".json,application/json" hidden><button id="export">Export saved</button><span class="toolbar-note">Unwanted Twitch &amp; HexStream</span></div>
+    <div class="row"><span id="save-state" class="muted">Loading…</span><button id="reload">Reload saved</button><button id="save" class="primary">Save rules</button></div>
+  </section>
+  <p id="status" class="status" role="status" aria-live="polite"></p>
+  <div class="rule-layout">
+    <aside class="rule-navigation"><div class="nav-label">Your lists</div><nav id="sections" role="tablist" aria-label="Rule lists" aria-orientation="vertical">
+      <button id="tab-tags" role="tab" aria-selected="true" aria-controls="rule-panel" data-section="tags"><span>Tags</span><span class="badge" data-count="tags">0</span></button>
+      <button id="tab-titles" role="tab" aria-selected="false" aria-controls="rule-panel" data-section="titles" tabindex="-1"><span>Titles</span><span class="badge" data-count="titles">0</span></button>
+      <button id="tab-channels" role="tab" aria-selected="false" aria-controls="rule-panel" data-section="channels" tabindex="-1"><span>Users</span><span class="badge" data-count="channels">0</span></button>
+      <button id="tab-categories" role="tab" aria-selected="false" aria-controls="rule-panel" data-section="categories" tabindex="-1"><span>Categories</span><span class="badge" data-count="categories">0</span></button>
+      <button id="tab-languages" role="tab" aria-selected="false" aria-controls="rule-panel" data-section="languages" tabindex="-1"><span>Languages</span><span class="badge" data-count="languages">0</span></button>
+      <button id="tab-whitelists" role="tab" aria-selected="false" aria-controls="rule-panel" data-section="whitelists" tabindex="-1"><span>Whitelists</span><span class="badge" data-count="whitelists">0</span></button>
+    </nav><p id="total" class="nav-total">Lists start empty.</p><p class="nav-tip">Nobody else’s opinions are preloaded.</p></aside>
+    <section id="rule-panel" class="card rule-editor" role="tabpanel" aria-labelledby="tab-tags">
+      <div class="row between editor-heading"><div><div class="eyebrow" id="list-kind">Block list</div><h2 id="list-title">Tags</h2></div><span id="list-count" class="pill">0 rules</span></div>
+      <p id="list-description">Hide streams with matching tags, including undisplayed tags when Twitch supplies them.</p>
+      <div id="text-editor">
+      <div id="whitelist-switches" class="whitelist-switches" role="group" aria-label="Whitelist type" hidden>
+        <button data-field="allowedChannels" aria-pressed="true">Always allow users</button><button data-field="allowedUsernames" aria-pressed="false">User exceptions</button><button data-field="allowedTitles" aria-pressed="false">Title exceptions</button><button data-field="allowedTags" aria-pressed="false">Tag exceptions</button>
+      </div>
+      <div class="row between"><label id="editor-label" for="rules">Blocked tags</label><span class="muted editor-hint">One rule per line</span></div>
+      <textarea id="rules" spellcheck="false" placeholder="Add a tag, or import your existing lists."></textarea>
+      <div class="row between editor-bottom"><small id="count">0 rules in this list</small><small>Changes apply when you save.</small></div>
+      </div>
+      <div id="language-editor" hidden>
+        <p class="language-notice">Choose where each filter applies. Writing systems detect characters, not spoken language. Languages that share an alphabet cannot be separated this way.</p>
+        <p id="language-legacy" class="language-notice" hidden></p>
+        <label for="language-search">Find a language or writing system</label>
+        <input id="language-search" type="search" placeholder="Search presets…" autocomplete="off">
+        <div class="language-table-wrap"><table class="language-table"><thead><tr><th scope="col">Writing system / character rule</th><th scope="col">Tags</th><th scope="col">Titles</th><th scope="col">Users</th></tr></thead><tbody id="language-rows"></tbody></table></div>
+        <p id="language-empty" hidden>No matching presets or custom character rules.</p>
+        <p class="muted language-note">New presets start off. Existing character rules appear here without being rewritten. Checked fields hide matching items; whitelists still apply. These are ordinary rules in your lists, so imports and exports keep working. Save rules to apply changes.</p>
+      </div>
+    </section>
+  </div>
+  <div class="help-grid">
+    <details class="help"><summary>Rule syntax</summary><div class="help-body"><p><code>MyTeam</code> matches the whole field, ignoring case and accents.<br><code>~myteam</code> or <code>*myteam*</code> matches text anywhere in the field.<br><code>/team(red|blue)/i</code> uses a regular expression.<br><code>'MyTeam'</code> matches the whole field with exact case.</p><p>Regexes support groups, alternatives and repetitions through a bundled linear-time engine. Lookarounds, backreferences and repetition counts above 1,000 are unsupported. Regexes use Unicode code points; some Unicode edge cases differ from JavaScript’s native engine.</p></div></details>
+    <details class="help"><summary>How hidden tags work</summary><div class="help-body"><p>Twitch squeezes a few tags onto each card. When its response supplies the complete list, HexStream checks all of them.</p><p>Use a card’s ⬡ button to see available tags and coverage. “Visible tags only” means that view has not supplied the full list.</p></div></details>
+    <details class="help"><summary>Import options</summary><div class="help-body"><p>Import replaces all lists in this editor for review. Save to apply; Reload saved discards the draft.</p><label><input type="checkbox" id="listsOnly"> Compatible lists only</label><p>Explicitly leave out phone-only language, followed-channel, word and emoji options. Ordinary Unwanted Twitch exports do not need this option.</p></div></details>
+  </div>
+  <footer>HexStream Filter 0.3.0 · Local storage · No telemetry · Independently implemented; compatible list imports from Unwanted Twitch.</footer>
+</main><script src="../vendor/re2js.js"></script><script src="../core/rules.js"></script><script src="../core/language-presets.js"></script><script src="options.js"></script></body></html>

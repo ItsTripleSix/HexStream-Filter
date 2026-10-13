@@ -1,0 +1,8 @@
+node_modules/
+dist/
+artifacts/
+test-results/
+*.log
+.env*
+web-ext-artifacts/
+profiles/

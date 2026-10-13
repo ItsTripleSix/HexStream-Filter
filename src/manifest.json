@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "HexStream Filter",
+  "version": "0.3.0",
+  "description": "Your Twitch directory, your rules. Filter the full supplied tag list, including tags the card does not show.",
+  "permissions": ["storage"],
+  "host_permissions": ["https://www.twitch.tv/*"],
+  "background": {"scripts": ["vendor/re2js.js", "core/rules.js", "background.js"]},
+  "action": {"default_popup": "ui/popup.html", "default_title": "HexStream Filter", "default_icon": {"32": "icons/32.png"}},
+  "options_ui": {"page": "ui/options.html", "open_in_tab": true},
+  "icons": {"32": "icons/32.png", "48": "icons/48.png", "96": "icons/96.png", "128": "icons/128.png"},
+  "content_scripts": [
+    {"matches": ["https://www.twitch.tv/*"], "js": ["bridge.bundle.js"], "run_at": "document_start", "world": "MAIN"},
+    {"matches": ["https://www.twitch.tv/*"], "js": ["vendor/re2js.js", "core/rules.js", "core/metadata.js", "content.js"], "css": ["content.css"], "run_at": "document_start"}
+  ],
+  "browser_specific_settings": {
+    "gecko": {"id": "hexstream-filter@itstriplesix.github.io", "strict_min_version": "142.0", "data_collection_permissions": {"required": ["none"]}}
+  }
+}

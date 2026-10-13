@@ -1,0 +1,4 @@
+[data-hexstream-hidden="true"] { display: none !important; }
+[data-hexstream-card="true"] { position: relative; }
+.hexstream-card-button { position: absolute; top: 6px; right: 6px; z-index: 10; width: 24px; min-width: 24px; height: 24px; padding: 0; border: 1px solid #fff5e64d; border-radius: 6px; background: #171b1bef; color: #fff5e6; font: 700 12px system-ui; cursor: pointer; opacity: .7; }
+.hexstream-card-button:hover, .hexstream-card-button:focus-visible { opacity: 1; outline: 2px solid #9ee4bc; outline-offset: 2px; }
